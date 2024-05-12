@@ -32,13 +32,13 @@ function getFileDimensions(path) {
 function compress(path, path_slt, func, quality=1)
 {
     try {
-        fs.access(path_slt, fs.constants.F_OK, (err) => {
+        fs.access(path_slt+quality, fs.constants.F_OK, (err) => {
             // 不存在
             if (err) {
                 console.log('不存在');
                 sharp(path)
                     .webp({ quality: quality })
-                    .toFile(path_slt, (err) => {
+                    .toFile(path_slt+quality, (err) => {
                         try {
                             if (err) {
                                 // console.error(`转换文件 ${filename} 出错:`, err);
@@ -47,7 +47,7 @@ function compress(path, path_slt, func, quality=1)
                             } else {
                                 // console.log(`文件 ${filename} 转换完成`);
                                 // res.sendFile(path_slt)
-                                func(err, path_slt)
+                                func(err, path_slt+quality)
                             }
                         } catch (err) {
                             // next(err)
@@ -59,7 +59,7 @@ function compress(path, path_slt, func, quality=1)
             else {
                 // console.log("存在");
                 // res.sendFile(path_slt)
-                func(err, path_slt)
+                func(err, path_slt+quality)
             }
         });
 
