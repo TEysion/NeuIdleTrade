@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Home from './components/Home.vue'
-import { useRouter } from 'vue-router';
-const router = useRouter()
-import axios from 'axios'
+import { RouterView } from 'vue-router'
+
 import { useUserStore } from './stores/user'
 import { useCounterStore } from './stores/counter'
 import { ref, onMounted } from 'vue'
 const store = useUserStore()
 const countStore = useCounterStore()
-
-let hasRecord = store.loadLocal();
-
 
 
 
@@ -20,7 +14,7 @@ store.update();
 
 
 const version = 'v1.0.0'
-const componentKey = ref(1);
+
 import { showDialog } from 'vant';
 
 if (localStorage.getItem('idletrade_version') !== version)
