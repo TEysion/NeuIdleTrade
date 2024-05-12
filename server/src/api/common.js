@@ -56,12 +56,21 @@ router.get('/getPicture/origin/:filename', (req, res) => {
     console.log("请求图片")
     var filename = req.params.filename;
     console.log("请求图片：" + filename)
-    let quality = req.params.quality;
 
     let path = `${appRoot}/static/public/uploads/${filename}`;
     let path_slt = `${appRoot}/static/public/slt/${filename}`;
 
-    res.sendFile(path);
+    // 使用 sharp 库读取输入文件
+    compress(path, path_slt, (err, path_slt) => {
+        if(err) {
+            send(res, 1, '不存在的图片');
+        }
+        else {
+            res.sendFile(path_slt);
+        }
+    }, 50)
+
+
 });
 
 //获取压缩图片

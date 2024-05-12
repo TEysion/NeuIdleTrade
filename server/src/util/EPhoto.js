@@ -29,7 +29,7 @@ function getFileDimensions(path) {
 }
 
 // 压缩
-function compress(path, path_slt, func)
+function compress(path, path_slt, func, quality=1)
 {
     try {
         fs.access(path_slt, fs.constants.F_OK, (err) => {
@@ -37,7 +37,7 @@ function compress(path, path_slt, func)
             if (err) {
                 console.log('不存在');
                 sharp(path)
-                    .webp({ quality: 50 })
+                    .webp({ quality: quality })
                     .toFile(path_slt, (err) => {
                         try {
                             if (err) {
