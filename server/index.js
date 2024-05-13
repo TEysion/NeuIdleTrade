@@ -4,29 +4,17 @@ const goodsApi = require('./src/api/goods');
 const orderApi = require('./src/api/order');
 const reportApi = require('./src/api/report');
 const messageApi = require('./src/api/message');
-var session = require('express-session');
-var FileStore = require('session-file-store')(session);
 
-
-const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 // require('express-async-errors');
 const app = express();
 const { appLog } = require('./src/util/ELog');
+const { sess } = require('./src/config/session');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-var identityKey = 'skey';
-app.use(session({
-    name: identityKey,
-    secret: 'braydensapp_neuxinayi',  // 用来对session id相关的cookie进行签名
-    store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
-    saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
-    resave: true,  // 是否每次都重新保存会话，建议false
-    cookie: {
-        maxAge: 120 * 3600 * 1000  // 有效期，单位是毫秒 1000s
-    }
-}));
+
+app.use(sess);
 // 后端api路由
 app.use('/api/user', userApi);
 app.use('/api/common', commonApi);

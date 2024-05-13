@@ -3,5 +3,5 @@
 /sessions
 *.log
 /src/config/*
-!/src/config/db.js.sample
+!/src/config/*.js.sample
 *.txt

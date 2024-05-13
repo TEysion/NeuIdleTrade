@@ -1,0 +1,20 @@
+// 请填写下面配置项，然后将.sample后缀去掉
+
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
+
+// 会话配置
+var config = {
+    name: 'idletrade',
+    secret: 'identityKey',  // 用来对session id相关的cookie进行签名
+    store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
+    saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
+    resave: true,  // 是否每次都重新保存会话，建议false
+    cookie: {
+        maxAge: 120 * 3600 * 1000  // 有效期，单位是毫秒 1000s
+    }
+}
+
+var sess = session(config)
+
+module.exports = { sess };

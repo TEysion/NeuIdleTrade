@@ -53,7 +53,7 @@ GRANT ALL PRIVILEGES ON idletrade.* TO 'idletrade_express_user'@'localhost';
 
 3. 文件配置
 > 将 `/server/src/config/db.js.sample` 文件的 `.sample` 后缀删掉
->
+> 将 `/server/src/config/session.js.sample` 文件的 `.sample` 后缀删掉
 
 4. 启动后端
 ```bash
