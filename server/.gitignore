@@ -1,7 +1,0 @@
-/static
-/node_modules
-/sessions
-*.log
-/src/config/*
-!/src/config/*.js.sample
-*.txt
