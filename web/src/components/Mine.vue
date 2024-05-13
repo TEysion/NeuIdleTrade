@@ -144,7 +144,7 @@ function updateUserrPwd() {
             showSuccessToast('修改成功！');
         })
         .catch((failResponse: any) => {
-
+            showFailToast(failResponse.response.data.message ? failResponse.response.data.message : failResponse.message);
         });
 }
 
@@ -190,9 +190,9 @@ const active = ref(3)
     <van-action-sheet v-model:show="showAbout" title="关于">
         <!-- <van-cell-group> -->
         <!-- 输入任意文本 -->
-        <van-cell title="版本" value="v0.5" />
-        <van-cell title="开发人员" value="专注于 工装裤" />
-        <van-cell title="测试人员" value="赖总 汪总 王总" />
+        <van-cell title="版本" value="v1.0.0" />
+        <van-cell title="开发人员" value="庄志宇 葛政锟" />
+        <van-cell title="测试人员" value="汪飞 赖泓峰 王宇暄" />
         <!-- </van-cell-group> -->
     </van-action-sheet>
 
@@ -267,18 +267,6 @@ const active = ref(3)
 
 
 
-.publish option {
-    background-color: #00bc9b;
-    height: 100%;
-    width: 100%;
-}
-
-.describ {
-    padding: 20px 10px;
-    margin: 10px 0px;
-    background: rgb(255, 255, 255);
-    border-radius: 10px;
-}
 
 .card {
     padding: 0px 0px;
@@ -288,75 +276,8 @@ const active = ref(3)
     overflow: hidden;
 }
 
-.describ input {
-    background: transparent;
-    /* font-weight: bold; */
-    font-size: 1rem;
-    display: block;
-    border: none;
-    width: 100%;
-}
 
 
-.describ input:focus {
-    /* background-color: red; */
-    border-radius: 3px;
-    border: 0;
-    outline: 0px solid aqua;
-    /* box-shadow: 1px 1px 10px 1px aqua; */
-}
-
-
-.describ textarea {
-    background: transparent;
-    width: 100%;
-    height: 30vh;
-    /* font-weight: bold; */
-    font-size: 1rem;
-    display: block;
-    border: none;
-}
-
-.describ textarea:focus {
-    /* background-color: red; */
-    border-radius: 3px;
-    border: 0;
-    outline: 0px solid aqua;
-    /* box-shadow: 1px 1px 10px 1px aqua; */
-}
-
-
-.listitem {
-    display: flex;
-    justify-content: space-between;
-}
-
-.uploadpic {
-    width: 60px;
-    height: 31px;
-    margin: 0 auto;
-}
-
-
-.addpic {
-    width: 58px;
-    height: 25px;
-    margin: 0 auto;
-}
-
-
-.picimg {
-    cursor: pointer;
-    width: 20vw;
-    height: 20vw;
-    margin: 3px;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
 
 li {
     /* background-color: #f2f2f2;
@@ -369,9 +290,6 @@ li {
     border-image: -webkit-linear-gradient(left, transparent 2%, #eee 3%, #eee 97%, transparent 98%) 1;
 }
 
-ul li:last-child {
-    border-bottom: none;
-}
 
 HR {
     margin: 10px 0;
@@ -385,11 +303,6 @@ HR {
     background: #f1f1f1;
 }
 
-.userinfo,
-.usermenu,
-.user_right {
-    background: #fff;
-}
 
 .user_left {
     width: 300px;
@@ -464,13 +377,5 @@ HR {
     line-height: 30px;
 }
 
-.selfword {
-    height: 30px;
-    line-height: 30px;
-    font-size: 13px;
-    color: #777;
-    text-align: center;
-    width: 250px;
-    margin: 0 auto;
-}
+
 </style>

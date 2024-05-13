@@ -41,6 +41,11 @@ const ErrCode = {
         code: 40005,
         message: '尚未登录',
     },
+    NOT_COMPLETED_PARAMS: {
+        status: 403,
+        code: 40006,
+        message: '参数不全',
+    },
 
 };
 

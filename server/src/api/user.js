@@ -119,11 +119,16 @@ router.post('/getUserinfo', (req, res) => {
 
 
 // 修改密码
-router.post('/modifyPsd', requestSysMgr, (req, res) => {
+router.post('/modifyPsd', (req, res) => {
     var params = req.body;
-    conductSqlSafe(res, req, "select * from user where user_id=?", [params.id], function (err, result) {
+    var sess = req.session;
+    var loginUserID = sess.loginUserID;
+    if (!params.newpsd) {
+        resErrSend(res, ErrCode.NOT_COMPLETED_PARAMS);
+    } 
+    conductSqlSafe(res, req, "select * from user where user_id=?", [loginUserID], function (err, result) {
         if (result) {
-            conductSqlSafe(res, req, "update user set user_password=? where user_id=?", [params.newpsd, params.id], function (err, result) {
+            conductSqlSafe(res, req, "update user set user_password=? where user_id=?", [params.newpsd, loginUserID], function (err, result) {
                 if (result) {
                     res.json({ ret_code: 0, ret_msg: '修改成功' });
                     resSuccSend(res, '成功');
