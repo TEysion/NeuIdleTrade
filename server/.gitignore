@@ -2,4 +2,6 @@
 /node_modules
 /sessions
 *.log
-/src/config
+/src/config/*
+!/src/config/db.js.sample
+*.txt

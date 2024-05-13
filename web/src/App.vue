@@ -21,15 +21,15 @@ if (localStorage.getItem('idletrade_version') !== version)
   showDialog({
     title: '欢迎使用',
     message: `<div>你好，欢迎体验<span style='font-weight:bold;'> 东大闲易${version}</span>，<br>本软件为2024年软件工程大作业，<br>体验帐号：<br><b style='color:red'>普通用户：20240002 密码：neu20240002<br>管理员：20240001 密码：neu20240001</b><br>开发组成员：<br>庄志宇、葛政锟、汪飞、赖泓峰、王宇暄<br>项目地址：<a href='https://github.com/TEysion/NeuIdleTrade'>https://github.com/TEysion/NeuIdleTrade</a></div>`,
-    confirmButtonText: '不再显示',
-    // cancelButtonText: '不再显示',
-    // showCancelButton: true,
+    confirmButtonText: '开始体验',
+    cancelButtonText: '不再显示',
+    showCancelButton: true,
     cancelButtonColor: '#aaa',
     allowHtml: true,
     // theme: 'round-button'
   }).then(() => {
     // on confirm
-    localStorage.setItem('idletrade_version', version);
+    // localStorage.setItem('idletrade_version', version);
   })
     .catch(() => {
       // on cancel
