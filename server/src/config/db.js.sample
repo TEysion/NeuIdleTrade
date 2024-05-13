@@ -1,0 +1,11 @@
+// 请填写下面配置项，然后将.sample后缀去掉
+// 数据库连接配置
+module.exports = {
+    mysql: {
+      host: '127.0.0.1',
+      port: 3306,
+      user: 'idletrade_express_user',
+      password: 'idletrade_express_user_password',
+      database: 'idletrade'
+    }
+  }
