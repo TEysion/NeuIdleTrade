@@ -123,23 +123,33 @@ function loadData() {
             loading.value = false;
         })
         .catch((failResponse: any) => {
-
+            
             firstLoadingState.value = 2
             error.value = true;
             loading.value = false;
+
+            if (failResponse.response.data.code === 40005) {
+                if (!jumped) {
+                    alert("登录超时，请重新登录");
+                    router.push('/login');
+                }
+            }
+
         });
 }
 
 
 
 const options = ref();
+let jumped = false;
 onMounted(() => {
     if (!store.loadLocal()) {
-        router.push('/login')
+        jumped = true;
+        router.push('/login');
         return;
     }
     if (store.getUser().user_role === -2) {
-
+        jumped = true;
         router.push('/sysmanage');
         return;
 
