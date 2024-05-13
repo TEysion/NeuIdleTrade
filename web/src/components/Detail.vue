@@ -179,9 +179,9 @@ const rejectReport = () => {
 }
 
 
-const showImage = (uri) => {
+const showImage = (uripath: string) => {
     showImagePreview([
-        uri
+        uripath
     ]);
 
 }
