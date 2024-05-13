@@ -71,7 +71,7 @@ function addImg() {
 
     axios.post("api/user/uploadAvatar", param, { headers: { 'Content-Type': 'multipart/form-data' } })
         .then((successResponse: any) => {
-
+            store.update();
         })
         .catch((failResponse: any) => {
 

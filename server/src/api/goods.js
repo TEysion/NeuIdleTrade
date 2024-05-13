@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-const {conductSqlSafe} = require('../util/EDb');
-const {getFileDimensions} = require('../util/EPhoto');
-const {ErrCode} = require('../util/ErrCode');
+const { conductSqlSafe } = require('../util/EDb');
+const { getFileDimensions } = require('../util/EPhoto');
+const { ErrCode } = require('../util/ErrCode');
 
 const { resErrSend, resSuccSend } = require('../util/ERes');
 const fs = require('fs');
@@ -30,7 +30,6 @@ function excludes2str(excludes) {
             ans.push(j)
         }
     }
-    console.log("ans is ", ans);
     return ans;
 }
 
@@ -38,7 +37,7 @@ function excludes2str(excludes) {
 function requestLogin(req, res, next) {
     var sess = req.session;
     var loginUserID = sess.loginUserID;
-    if(loginUserID) {
+    if (loginUserID) {
         console.log('已登录');
         next();
     }
@@ -82,11 +81,10 @@ router.post('/getGoodsList', requestLogin, (req, res) => {
                 \`order\` o ON g.goods_id = o.order_goods
                 WHERE 
                 g.goods_id NOT IN (?) and o.order_goods is null
-                ${searchtext?'and (g.goods_name like "%' + searchtext.trim() + '%" or g.category_name like "%' + searchtext.trim() + '%")':''}
+                ${searchtext ? 'and (g.goods_name like "%' + searchtext.trim() + '%" or g.category_name like "%' + searchtext.trim() + '%")' : ''}
                 ORDER BY 
                 g.goods_listingtime DESC
                 LIMIT ?;`
-    console.log(selectsql, excludes2str(excludes));
     conductSqlSafe(res, req, selectsql, sqlParams, function (err, result) {
         if (result) {
             resSuccSend(res, result);
@@ -100,6 +98,25 @@ router.post('/addGoods', requestLogin, upload.array('file', 10), (req, res) => {
     var loginUserID = sess.loginUserID;
     var params = req.body;
     var goods_picture = "";
+    if (!req.files
+        || req.files.length === 0
+        || !params.goodsname
+        || !params.oldprice
+        || !params.price
+        || !params.goodstype
+        || !params.recommend
+        || !params.goodsnewold) {
+        console.log("价格",!params.oldprice, !params.price)
+        for (var i = 0; req.files && i < req.files.length; i++) {
+            fs.unlinkSync('static/public/uploads/' + req.files[i].filename)
+        }
+        resErrSend(res, ErrCode.NOT_COMPLETED_PARAMS);
+        return;
+    }
+
+
+    console.log("价格",params.oldprice, params.price)
+
     for (var i = 0; i < req.files.length; i++) {
         if (i != 0) goods_picture += "#"
         goods_picture += req.files[i].filename
@@ -174,12 +191,12 @@ router.post('/getGoodsInfo', requestLogin, (req, res) => {
                             LEFT JOIN cart c ON vb.goods_id = c.cart_goods AND c.cart_user=?
                             where
                             vg.goods_id=?
-                            and vb.goods_id=vg.goods_id;`, 
-                              [loginUserID, goods_id], function (err, result) {
-        if (result) {
-            resSuccSend(res, result);
-        }
-    })
+                            and vb.goods_id=vg.goods_id;`,
+        [loginUserID, goods_id], function (err, result) {
+            if (result) {
+                resSuccSend(res, result);
+            }
+        })
 });
 
 // 添加收藏
@@ -270,7 +287,7 @@ router.post('/deleteGoods', requestLogin, (req, res) => {
 function requestSysMgr(req, res, next) {
     var sess = req.session;
     var loginUserID = sess.loginUserID;
-    if(loginUserID === 2) {
+    if (loginUserID === 2) {
         console.log('超级管理员鉴权通过');
         next();
     }

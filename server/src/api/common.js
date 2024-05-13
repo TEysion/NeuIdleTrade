@@ -53,7 +53,6 @@ function requestLogin(req, res) {
 
 //获取原图
 router.get('/getPicture/origin/:filename', (req, res) => {
-    console.log("请求图片")
     var filename = req.params.filename;
     console.log("请求图片：" + filename)
 

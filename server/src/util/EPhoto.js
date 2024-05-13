@@ -6,7 +6,7 @@ const deletePhoto = (photoName) => {
         console.log("删除", pictures[i])
         fs.unlinkSync('static/public/uploads/' + pictures[i]);
     }
-    catch(e) {
+    catch (e) {
         console.log("删除错误", e);
     }
 }
@@ -28,16 +28,26 @@ function getFileDimensions(path) {
     });
 }
 
+const path = require('path');
 // 压缩
-function compress(path, path_slt, func, quality=1)
-{
+function compress(path_src, path_slt, func, quality = 1) {
     try {
-        path_slt=path_slt+"_"+quality;
+        path_slt = path_slt + "_" + quality;
+
+        const directory = path.dirname(path_slt);
+
+        // 检查目录是否存在
+        if (!fs.existsSync(directory)) {
+            // 目录不存在，创建目录
+            fs.mkdirSync(directory, { recursive: true });
+        }
+
+
         fs.access(path_slt, fs.constants.F_OK, (err) => {
             // 不存在
             if (err) {
                 console.log('不存在');
-                sharp(path)
+                sharp(path_src)
                     .webp({ quality: quality })
                     .toFile(path_slt, (err) => {
                         try {
@@ -72,5 +82,5 @@ function compress(path, path_slt, func, quality=1)
     }
 }
 
-module.exports = { deletePhoto,getFileDimensions,compress };
+module.exports = { deletePhoto, getFileDimensions, compress };
 
