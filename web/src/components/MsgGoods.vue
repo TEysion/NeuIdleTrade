@@ -29,6 +29,7 @@ const onEditOrder = ()=> {
 
   <div v-if="props.isMyself">
     <div type="primary" style="text-align: center; font-weight: bold;">发送了一个商品</div>
+    <div type="primary">请与卖家沟通面对面交易时间与地点，然后等待卖家编辑订单</div>
     <GoodsItem :goods_id="props.goodsId">
     </GoodsItem>
     
@@ -36,6 +37,7 @@ const onEditOrder = ()=> {
 
   <div v-else>
     <div type="primary" style="text-align: center; font-weight: bold;">发送了一个商品</div>
+    <div type="primary">请在与买家沟通面对面交易时间与地点后，编辑并发送订单</div>
     <GoodsItem :goods_id="props.goodsId">
     </GoodsItem>
     <van-button type="primary" block @click="onEditOrder">编辑订单</van-button>

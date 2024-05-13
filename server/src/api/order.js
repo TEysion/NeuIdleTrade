@@ -127,17 +127,27 @@ router.post('/confirmOrder', (req, res) => {
     var sess = req.session;
     var loginUserID = sess.loginUserID;
     var order_id = params.order_id;
-    var sales_id=params.sale_id;
-    var buyers_id=params.buyers_id;
     var msgType = params.type;
+    var frined_id = params.friend_id;
     conductSqlSafe(res, req, "update `order` set order_state=1 where order_id=?", [order_id], function (err, result) {
         if (result) {
-            conductSqlSafe(res, req, "update message set message_read=0 where message_type = '9' and message_content = ? and message_sender =? and message_receiver=?;", [order_id,buyers_id,sales_id], function (err, result) {
+            // resSuccSend(res, '成功');
+
+            
+
+            conductSqlSafe(res, req, "insert into message(message_sender,message_receiver,message_type,message_content,message_time) values(?,?,?,?,?)", [loginUserID, frined_id, 1, '我已确认订单', datetime.format(new Date(), 'YYYY-MM-DD HH:mm:ss')], function (err, result) {
                 if (result) {
-                    resSuccSend(res, '成功更新');
+                    // resSuccSend(res, result);
+                    resSuccSend(res, '成功');
+                    // conductSqlSafe(res, req, "update message set message_read=0 where message_type=9 and message_content=? and message_receiver=?;", [order_id, loginUserID], function (err, result) {
+                    //     if (result) {
+                    //         resSuccSend(res, '成功');
+                    //     }
+                    // })
+
+                    
                 }
             })
-            resSuccSend(res, '成功');
             // conductSqlSafe(res, req, "update message set message_read=false where message_type = '9' and message_content = ?;", [order_id], function (err, result) {
             // })
         }

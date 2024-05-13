@@ -44,17 +44,12 @@ function sendwebmsg() {
         message_content: webmsginput.value
     })
         .then((successResponse) => {
-            // alert("ok")
-            // sendOK = true;
             getMessage();
         })
         .catch((failResponse) => {
-            // alert(failResponse)
             showFailToast('发送失败');
-            // sendOK = true;
         });
     webmsginput.value = "";
-    // webmessages.value.push({ message_content: "123456" })
 }
 
 
@@ -88,14 +83,10 @@ function getMessage() {
                 if (msg1.message_time < msg2.message_time) return -1
                 return 0;
             })
-
-            // alert(webmessages.value)
         })
         .catch((failResponse) => {
             alert(failResponse)
-            // sendOK = true;
         });
-    // webmsginput.value = "";
 }
 
 // let sendOK = false;
@@ -112,14 +103,11 @@ function updateWebMsg() {
 
         })
         .catch((failResponse) => {
-            // alert(failResponse)
-            // sendOK = true;
         });
 }
 
 // 单个 ref
 watch(webmessages, (newX, oldX) => {
-    // alert(newX)
     var div = scrolldivwebmsg.value as any;
     setTimeout(() => {
         if (oldX as any == "") div.scrollTop = div.scrollHeight;
@@ -144,13 +132,10 @@ onMounted(() => {
         updateWebMsg()
     }, 1000 * 1);
     getFriendInfo();
-    // alert(goods_id.value)
     if (goods_id.value) {
-        // alert(goods_id.value)
         sendGoods();
-    }
 
-    // alert(goods_id.value)
+    }
 })
 
 
@@ -191,9 +176,6 @@ const sendGoods = () => {
 
 // 发送订单
 const sendOrder = () => {
-    // 首先创建订单
-
-    // currentTime.value
     let dateStr = `${currentDate.value[0]}/${currentDate.value[1]}/${currentDate.value[2]} ${currentTime.value[0]}:${currentTime.value[1]}`
     axios.post('api/order/createOrder', {
         goods_id: currentGoods,
@@ -239,13 +221,9 @@ const msg88decode = (str: string) => {
       val  = JSON.parse(str);
     }
     catch(e) {
-
     }
     return val;
-
-
 }
-
 
 let currentGoods: string;
 const editOrder = (goods_id: string) => {
@@ -254,7 +232,10 @@ const editOrder = (goods_id: string) => {
     currentGoods = goods_id;
 }
 
-// makeup();
+
+const onConfirmOrder = () => {
+    getMessage();
+}
 
 
 const showSelectDate = ref(false);
@@ -319,7 +300,7 @@ const formTime = ref();
                             <div v-else-if="msg.message_type === 9">
                                 <div
                                     style="background-color: white; border-radius: 15px; min-width: calc(100vw - 6rem); max-width: calc(100vw - 6rem)">
-                                    <MsgOrder :orderId="msg.message_content" :isMyself="true"></MsgOrder>
+                                    <MsgOrder :orderId="msg.message_content" :isMyself="true" :key="msg.message_read"></MsgOrder>
                                 </div>
                             </div>
 
@@ -350,6 +331,7 @@ const formTime = ref();
                             style="margin: 0.5rem; margin-right: 0.5rem; min-width: 3rem;" @click="router.push('/userhome?user_id=' + msg.message_sender)"
                             :src="'api/common/getPicture/' + friend?.user_avatar" />
 
+                        
 
 
                         <div style="white-space: pre-wrap; border-radius: 15px;">
@@ -373,10 +355,10 @@ const formTime = ref();
                                 </div>
                             </div>
 
-                            <div v-else-if="msg.message_type === 9">
+                            <div v-else-if="msg.message_type === 9" :key="msg.message_read">
                                 <div
                                     style="background-color: white; border-radius: 15px; min-width: calc(100vw - 6rem); max-width: calc(100vw - 6rem)">
-                                    <MsgOrder :orderId="msg.message_content" :isMyself="false"></MsgOrder>
+                                    <MsgOrder :orderId="msg.message_content" :isMyself="false" @onConfirmOrder="onConfirmOrder"></MsgOrder>
                                 </div>
                             </div>
 
@@ -419,15 +401,10 @@ const formTime = ref();
         </div>
 
 
-        <!-- <van-collapse v-model="showMore"> -->
-        <!-- <van-collapse-item name="1"> -->
-        <!-- <template #title> -->
         <div style="width: 100%; display: flex; padding: 0px;">
             <van-field v-model="webmsginput" placeholder="请输入" @keyup.enter="sendwebmsg()"></van-field>
-            <!-- <button style="width: 20%" @click="showMore = !showMore;" type="button" id="button-addon2">更多</button> -->
             <van-button style="width: 20%" @click="sendwebmsg()" id="button-addon2">发送</van-button>
         </div>
-        <!-- </template> -->
         <div v-if="showMore">
             <button @click="sendGoods">发送商品（买家）</button>
             <button>商家评价（买家）</button>
@@ -463,13 +440,6 @@ const formTime = ref();
         <van-popup round position="bottom" v-model:show="showSelectTime">
             <van-time-picker v-model="formTime" title="选择时间" @cancel="showSelectTime=false" @confirm="currentTime=formTime;showSelectTime=false;" />
         </van-popup>
-
-
-
-
-        <!-- </van-collapse-item> -->
-
-        <!-- </van-collapse> -->
 
 
     </div>

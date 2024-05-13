@@ -62,7 +62,6 @@ function conductSqlSafe(res, req, presql, params, func) {
             }
         } else {
             // 将 MySQL 查询结果作为路由返回值
-            console.log("333")
             appLog.info(req, "查询成功")
             try {
                 func(err, ans)

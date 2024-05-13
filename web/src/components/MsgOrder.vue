@@ -8,6 +8,7 @@ import { useUserStore } from '../stores/user'
 import { ref, onMounted } from 'vue'
 import GoodsItem from './GoodsItem.vue';
 const props = defineProps(['orderId', 'isMyself'])
+const emit = defineEmits(['onConfirmOrder'])
 const store = useUserStore()
 
 
@@ -31,9 +32,10 @@ const confirmOrder = (orderId: string) => {
   // alert(123)
   axios.post('api/order/confirmOrder', {
     order_id: orderId,
+    friend_id: order.value.goods_seller
   })
     .then((successResponse) => {
-
+      emit('onConfirmOrder');
     })
     .catch((failResponse) => {
 
