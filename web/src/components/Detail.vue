@@ -9,7 +9,7 @@ const store = useUserStore()
 
 import { NavigationFailureType, isNavigationFailure } from 'vue-router'
 
-
+import { showImagePreview } from 'vant';
 
 defineProps<{
     msg: string
@@ -178,6 +178,14 @@ const rejectReport = () => {
         });
 }
 
+
+const showImage = (uri) => {
+    showImagePreview([
+        uri
+    ]);
+
+}
+
 </script>
 
 
@@ -189,8 +197,7 @@ const rejectReport = () => {
         <div class="head">
             <LeftOutlined @click="back" style="margin: auto 0; font-size: 18px;" />
             <div class="portrait" @click="router.push('/userhome?user_id=' + goods?.goods_seller)">
-                <img :src="'api/common/getPicture/' + goods?.user_avatar" width="45" height="45"
-                    title="头像" id="head">
+                <img :src="'api/common/getPicture/' + goods?.user_avatar" width="45" height="45" title="头像" id="head">
             </div>
             <div class="user-info">
                 <div class="nick">{{ goods?.user_nickname }}</div>
@@ -261,10 +268,9 @@ const rejectReport = () => {
 
                 <div v-if="goods?.ban_reason == null" v-masonry-tile :style="{ width: 'calc((100% - 0.45rem) / 1)' }"
                     v-for="item, index in goods?.goods_photos" :key="index" ref="goodsCard"
-                    @click="router.push('/detail?goods_id=' + item.goods_id);">
+                    @click="showImage('api/common/getPicture/origin/' + item.path);">
                     <!-- <div style="border-radius: 5px; overflow: hidden;"> -->
-                    <van-image v-if="index == 0"
-                        :src="'api/common/getPicture/origin/' + item.path">
+                    <van-image v-if="index == 0" :src="'api/common/getPicture/origin/' + item.path">
                     </van-image>
                     <!-- </div> -->
                 </div>
@@ -273,10 +279,9 @@ const rejectReport = () => {
                     <div v-masonry-tile :class="index == 0 ? '' : 'film-item'"
                         :style="{ width: goods?.goods_photos.length == 2 ? 'calc((100% - 0.9rem) / 1)' : 'calc((100% - 0.9rem) / 2)' }"
                         v-for="item, index in goods?.goods_photos" :key="index" ref="goodsCard"
-                        @click="router.push('/detail?goods_id=' + item.goods_id);">
+                        @click="showImage('api/common/getPicture/origin/' + item.path);">
                         <!-- <div style="border-radius: 5px; overflow: hidden;"> -->
-                        <van-image v-if="index != 0"
-                            :src="'api/common/getPicture/origin/' + item.path">
+                        <van-image v-if="index != 0" :src="'api/common/getPicture/origin/' + item.path">
                         </van-image>
                         <!-- </div> -->
                     </div>
