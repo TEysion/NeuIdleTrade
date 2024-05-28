@@ -34,14 +34,17 @@ function register() {
             password: password.value
         })
         .then((successResponse) => {
-                    setTimeout(() => {
-                        router.replace('/login')
-                    }, 0);
+            if (successResponse.data.ret_code == 0)
+                setTimeout(() => {
+                    router.replace('/login')
+                }, 0);
+            else {
+                tip.value = successResponse.data.ret_msg;
+            }
 
-            
         })
         .catch((failResponse) => {
-            tip.value = failResponse.response.data.message?failResponse.response.data.message:failResponse.message;
+            tip.value = failResponse.response.data.message ? failResponse.response.data.message : failResponse.message;
         });
 }
 

@@ -23,9 +23,12 @@ router.post('/register', (req, res) => {
     var params = req.body;
     conductSqlSafe(res, req, "select user_id, user_password from user where user_id=?", [params.id], function (err, result) {
         if (result) {
+            console.log("注册", result);
             if (result.length > 0) {
-                res.json({ ret_code: 1, ret_msg: '该学号/工号已注册！' + result[0].user_id + result[0].user_password });
+                console.log("已注册");
+                res.json({ ret_code: 1, ret_msg: '该账号已注册！' + result[0].user_id });
             } else {
+                console.log("未注册");
                 conductSqlSafe(res, req, "INSERT INTO user(user_id,user_nickname,user_password, user_avatar) VALUES(?,?,?,?)", [params.id, params.nick, params.password, 'defaultavatar1.jpeg'], function (err, result) {
                     if (err) {
                         res.json({ ret_code: 1, ret_msg: err });
