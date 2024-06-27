@@ -56,7 +56,8 @@ class ELog {
             return '未知 ' + req.headers.origin + ' ' + req.ip;
         var loginUser = sess.loginUser;
         var loginUserID = sess.loginUserID;
-        return loginUserID + ' ' + req.headers.origin + ' ' + req.ip + ' 【' + req.originalUrl + '】';
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        return loginUserID + ' ' + req.headers.origin + ' ' + ip + ' 【' + req.originalUrl + '】';
     }
 
     getTime() {
